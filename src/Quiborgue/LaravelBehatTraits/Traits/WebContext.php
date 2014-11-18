@@ -3,6 +3,8 @@
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 
+use Symfony\Component\DomCrawler\Crawler;
+
 trait WebContext {
     protected $web_response;
 
