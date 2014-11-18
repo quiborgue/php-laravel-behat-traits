@@ -2,6 +2,7 @@
 
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Quiborgue\Utils\ArrayUtils;
 
 trait RestContext {
     protected $rest_response;
@@ -46,7 +47,7 @@ trait RestContext {
             throw new \Exception("Following expected JSON is malformed:\n" . print_r($response, true));
         }
 
-        $diff = ArrayHelper::diff_assoc_recursive($json_expected, $json_given);
+        $diff = ArrayUtils::diff_assoc_recursive($json_expected, $json_given);
         if (count($diff) > 0) {
             throw new \Exception("Following differs between jsons:\n" . print_r($diff, true));
         }
