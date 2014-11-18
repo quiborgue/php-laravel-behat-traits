@@ -45,3 +45,15 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 }
 ```
+
+#### Available steps
+```
+default |  When /^(?:I )?send a ([A-Z]+) request to "([^"]+)"$/
+default |  When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with parameters:$/
+default |  Then the response status should be :code
+default |  Then the JSON response should be:
+default |  Then the JSON response should be an array with :count elements
+default | Given I am logged in
+default |  When I visit :uri
+default |  Then I should see :text
+```
