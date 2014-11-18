@@ -1,6 +1,16 @@
 ## Laravel Behat Traits
 
 ### Usage:
+
+#### Add to composer.json
+```
+"require-dev": {
+    "behat/behat": "3.0.*",
+    "quiborgue/utils": "dev-master",
+    "quiborgue/laravel-behat-traits": "dev-master"
+},
+```
+
 ```
 <?php
 require_once __DIR__.'/../../bootstrap/autoload.php';
