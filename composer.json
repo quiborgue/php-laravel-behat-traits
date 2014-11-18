@@ -1,0 +1,26 @@
+{
+    "name": "quiborgue/laravel-behat-traits",
+    "description": "Useful traits to use with Behat on Laravel",
+    "authors": [
+        {
+            "name": "Quiborgue",
+            "email": "contato@quiborgue.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Quiborgue\\LaravelBehatTraits": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://bitbucket.org/quiborgue/laravel-behat-traits"
+        }
+    ]
+}
