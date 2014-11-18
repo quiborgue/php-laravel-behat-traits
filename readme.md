@@ -1,7 +1,3 @@
-## Laravel Behat Traits
-
-Basic FeatureContext configuration:
-```
 <?php
 require_once __DIR__.'/../../bootstrap/autoload.php';
 
@@ -10,7 +6,9 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 
-use Quiborgue\LaravelBehatTraits\LaravelSetup;
+use Quiborgue\LaravelBehatTraits\Traits\LaravelSetup;
+use Quiborgue\LaravelBehatTraits\Traits\RestContext;
+use Quiborgue\LaravelBehatTraits\Traits\WebContext;
 
 /**
  * Defines application features from the specific context.
@@ -18,6 +16,8 @@ use Quiborgue\LaravelBehatTraits\LaravelSetup;
 class FeatureContext implements Context, SnippetAcceptingContext
 {
     use LaravelSetup;
+    use RestContext;
+    use WebContext;
     /**
      * Initializes context.
      *
@@ -29,4 +29,3 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
     }
 }
-```
