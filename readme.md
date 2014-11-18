@@ -1,3 +1,7 @@
+## Laravel Behat Traits
+
+### Usage:
+```
 <?php
 require_once __DIR__.'/../../bootstrap/autoload.php';
 
@@ -29,3 +33,4 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
     }
 }
+```
