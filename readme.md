@@ -53,7 +53,7 @@ RestContext |  When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with parameter
 RestContext |  Then the response status should be :code
 RestContext |  Then the JSON response should be:
 RestContext |  Then the JSON response should be an array with :count elements
-WebContext | Given I am logged in
-WebContext |  When I visit :uri
-WebContext |  Then I should see :text
+WebContext  | Given I am logged in
+WebContext  |  When I visit :uri
+WebContext  |  Then I should see :text
 ```
