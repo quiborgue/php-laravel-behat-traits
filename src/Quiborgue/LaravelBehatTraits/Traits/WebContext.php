@@ -15,7 +15,7 @@ trait WebContext {
      */
     public function iAmLoggedIn()
     {
-        $user = new User;
+        $user = new \User;
      
         $this->be($user);
     }
@@ -31,19 +31,18 @@ trait WebContext {
     /**
      * @Then I should see :text
      */
-    public function iShouldSee($text)
+    public function iShouldSee($regex)
     {
-        $crawler = new Crawler($this->web_response->getContent());
-     
-        if (!count($crawler->filterXpath("//text()[. = '{$text}']"))) {
-            throw new \Exception("Text '$text' was not found.");
+        preg_match($regex, $this->web_response->getContent(), $matches);
+        if (!$matches) {
+            throw new \Exception("Could not find $regex pattern");
         }
     }
 
     /**
-     * @Then I should be on :arg1
+     * @Then I should be redirected to :uri
      */
-    public function iShouldBeOn($uri)
+    public function iShouldBeRedirectedTo($uri)
     {
         $response = $this->client->getResponse();
 
