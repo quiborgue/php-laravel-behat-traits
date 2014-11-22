@@ -19,9 +19,19 @@ trait ModelContext {
         \Artisan::call('migrate');
         \Artisan::call('db:seed');
     }
+    
+    /**
+     * @Given /^clear model "([^"]+)"$/
+     */
+    public function clearModel($model)
+    {
+        $model = studly_case($model);
+        $list = $model::truncate();
+    }
+
 
     /**
-     * @Then the following "([^"]+)" should be stored:
+     * @Then /^the following "([^"]+)" should be stored:$/
      */
     public function theFollowingModelShouldBeStored($model, TableNode $model_information)
     {
@@ -42,6 +52,30 @@ trait ModelContext {
                     throw new \Exception("Could not find $k = $v for $model.");
                 }
             }
+        }
+    }
+
+    /**
+     * @Then /^show all from "([^"]+)"$/
+     */
+    public function showAllFrom($model)
+    {
+        $model = studly_case($model);
+        $list = $model::all();
+
+        echo json_encode($list);
+    }
+
+    /**
+     * @Then /^"([^"]+)" count should be exactly (\d+)$/
+     */
+    public function modelCountShouldBeExactly($model, $count)
+    {
+        $model = studly_case($model);
+        $list = $model::all();
+
+        if (count($list) != $count) {
+            throw new \Exception("Model count is " . count($list) . " but expected $count.");
         }
     }
 }
