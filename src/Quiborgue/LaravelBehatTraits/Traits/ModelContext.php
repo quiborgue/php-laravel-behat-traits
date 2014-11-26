@@ -46,7 +46,13 @@ trait ModelContext {
 
         foreach ($list as $item) {
             foreach ($model_hash as $k => $v) {
-                preg_match($v, $item->$k, $matches);
+                $k_array = explode(".", $k);
+                $value = $item;
+                foreach ($k_array as $attr) {
+                    $value = $value->$attr;
+                }
+
+                preg_match($v, $value, $matches);
 
                 if (!$matches) {
                     throw new \Exception("Could not find $k = $v for $model.");
@@ -73,7 +79,6 @@ trait ModelContext {
     {
         $model = studly_case($model);
         $list = $model::all();
-
         if (count($list) != $count) {
             throw new \Exception("Model count is " . count($list) . " but expected $count.");
         }
