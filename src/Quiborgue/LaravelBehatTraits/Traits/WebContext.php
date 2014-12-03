@@ -12,6 +12,7 @@ trait WebContext {
 
     /**
      * @Given I am logged in
+     * @Given que eu estou logado
      */
     public function iAmLoggedIn()
     {
@@ -22,6 +23,7 @@ trait WebContext {
 
     /**
      * @When I visit :uri
+     * @When eu acesso :uri
      */
     public function iVisit($uri)
     {
@@ -30,6 +32,7 @@ trait WebContext {
 
     /**
      * @Then I should see :text
+     * @Then eu devo ver :text
      */
     public function iShouldSee($regex)
     {
@@ -41,6 +44,7 @@ trait WebContext {
 
     /**
      * @Then I should be redirected to :uri
+     * @Then eu devo ser redirecionado para :uri
      */
     public function iShouldBeRedirectedTo($uri)
     {

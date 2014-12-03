@@ -9,6 +9,7 @@ trait RestContext {
 
     /**
      * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)"$/
+     * @When /^(?:eu )?envio uma requisição ([A-Z]+) para "([^"]+)"$/
      */
     public function iSendARequestTo($method, $uri) {
         $this->rest_response = $this->call($method, $uri);
@@ -16,6 +17,7 @@ trait RestContext {
 
     /**
      * @When /^(?:I )?send a ([A-Z]+) request to "([^"]+)" with parameters:$/
+     * @When /^eu envio uma requisião ([A-Z]+) para "([^"]+)" com os parametros:$/
      */
     public function iSendARequestToWithTheFollowing($method, $uri, TableNode $params) {
         $this->rest_response = $this->call($method, $uri, $params->getRowsHash());
@@ -23,6 +25,7 @@ trait RestContext {
 
     /**
      * @Then the response status should be :code
+     * @Then o código da resposta deve ser :code
      */
     public function theResponseStatusShouldBe($code)
     {
@@ -33,6 +36,7 @@ trait RestContext {
 
     /**
      * @Then the JSON response should be:
+     * @Then a resposta JSON deve ser:
      */
     public function theJsonResponseShouldBe(PyStringNode $string)
     {
@@ -55,6 +59,7 @@ trait RestContext {
 
     /**
      * @Then the JSON response should be an array with :count elements
+     * @Then a resposta JSON deve ser um array com :count elementos
      */
     public function theJsonResponseShouldBeAnArrayWithElements($count)
     {
