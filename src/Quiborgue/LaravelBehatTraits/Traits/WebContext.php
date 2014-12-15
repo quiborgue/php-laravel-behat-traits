@@ -6,6 +6,8 @@ use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Http\RedirectResponse;
 
+use Quiborgue\Utils\StringUtils;
+
 trait WebContext {
 
     protected $web_response;
@@ -31,14 +33,18 @@ trait WebContext {
     }
 
     /**
-     * @Then I should see :text
-     * @Then eu devo ver :text
+     * @Then I should see :pattern
+     * @Then eu devo ver :pattern
      */
-    public function iShouldSee($regex)
+    public function iShouldSee($pattern)
     {
-        preg_match($regex, $this->web_response->getContent(), $matches);
+        if (!StringUtils::is_regex($pattern)) {
+            $pattern = "/" . preg_quote($pattern) . "/";
+        }
+        
+        preg_match($pattern, $this->web_response->getContent(), $matches);
         if (!$matches) {
-            throw new \Exception("Could not find $regex pattern");
+            throw new \Exception("Could not find $pattern pattern");
         }
     }
 
