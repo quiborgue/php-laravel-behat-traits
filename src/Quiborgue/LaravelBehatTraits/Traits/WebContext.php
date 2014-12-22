@@ -18,8 +18,8 @@ trait WebContext {
      */
     public function iAmLoggedIn()
     {
-        $user = new \User;
-     
+        $user_class = \Config::get('auth.model');
+        $user = $user_class::all()->first();
         $this->be($user);
     }
 
@@ -66,5 +66,14 @@ trait WebContext {
             throw new \Exception("Expected $expected got $got");
         }
     }
+
+    /**
+     * @Then the response should be printed
+     * @Then a resposta deve ser exibida
+     */
+    public function theResponseShouldBePrinted()
+    {
+        echo $this->web_response->getContent();
+    }   
 
 }
