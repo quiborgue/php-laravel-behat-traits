@@ -24,11 +24,17 @@ trait RestContext {
     }
 
     /**
+     * @When eu envio uma requisição :method para :uri com o corpo:
+     */
+    public function iSendARequestToWithBody($method, $uri, PyStringNode $body) {
+        $this->rest_response = $this->call($method, $uri, array(), array(), array(), $body);
+    }
+
+    /**
      * @Then the response status should be :code
      * @Then o código da resposta deve ser :code
      */
-    public function theResponseStatusShouldBe($code)
-    {
+    public function theResponseStatusShouldBe($code) {
         if ($this->rest_response->getStatusCode() != $code) {
             throw new \Exception("Expected $code but got {$this->rest_response->getStatusCode()}");
         }
