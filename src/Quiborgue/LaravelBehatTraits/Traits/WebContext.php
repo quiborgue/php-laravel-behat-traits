@@ -49,6 +49,22 @@ trait WebContext {
     }
 
     /**
+     * @Then I should not see :pattern
+     * @Then eu não devo ver :pattern
+     */
+    public function iShouldNotSee($pattern)
+    {
+        if (!StringUtils::is_regex($pattern)) {
+            $pattern = "/" . preg_quote($pattern) . "/";
+        }
+        
+        preg_match($pattern, $this->web_response->getContent(), $matches);
+        if ($matches) {
+            throw new \Exception("Found $pattern pattern");
+        }
+    }
+
+    /**
      * @Then I should be redirected to :uri
      * @Then eu devo ser redirecionado para :uri
      */
