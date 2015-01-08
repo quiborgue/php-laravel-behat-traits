@@ -24,6 +24,17 @@ trait WebContext {
     }
 
     /**
+     * @Given I am logged in as :email
+     * @Given que eu estou logado como :email
+     */
+    public function queEuEstouLogadoComo($email)
+    {
+        $user_class = \Config::get('auth.model');
+        $user = $user_class::where('email','=',$email)->first();
+        $this->be($user);
+    }
+
+    /**
      * @When I visit :uri
      * @When eu acesso :uri
      */
