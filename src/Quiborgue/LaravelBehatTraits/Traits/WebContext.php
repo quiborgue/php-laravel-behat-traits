@@ -10,7 +10,7 @@ use Quiborgue\Utils\StringUtils;
 
 trait WebContext {
 
-    protected $web_response;
+    protected $webResponse;
 
     /**
      * @Given I am logged in
@@ -18,8 +18,8 @@ trait WebContext {
      */
     public function iAmLoggedIn()
     {
-        $user_class = \Config::get('auth.model');
-        $user = $user_class::all()->first();
+        $userClass = \Config::get('auth.model');
+        $user = $userClass::all()->first();
         $this->be($user);
     }
 
@@ -29,8 +29,8 @@ trait WebContext {
      */
     public function queEuEstouLogadoComo($email)
     {
-        $user_class = \Config::get('auth.model');
-        $user = $user_class::where('email','=',$email)->first();
+        $userClass = \Config::get('auth.model');
+        $user = $userClass::where('email','=',$email)->first();
         $this->be($user);
     }
 
@@ -40,7 +40,7 @@ trait WebContext {
      */
     public function iVisit($uri)
     {
-        $this->web_response = $this->call('GET', $uri);
+        $this->webResponse = $this->call('GET', $uri);
     }
 
     /**
@@ -49,11 +49,11 @@ trait WebContext {
      */
     public function iShouldSee($pattern)
     {
-        if (!StringUtils::is_regex($pattern)) {
+        if (!StringUtils::isRegex($pattern)) {
             $pattern = "/" . preg_quote($pattern) . "/";
         }
         
-        preg_match($pattern, $this->web_response->getContent(), $matches);
+        preg_match($pattern, $this->webResponse->getContent(), $matches);
         if (!$matches) {
             throw new \Exception("Could not find $pattern pattern");
         }
@@ -65,11 +65,11 @@ trait WebContext {
      */
     public function iShouldNotSee($pattern)
     {
-        if (!StringUtils::is_regex($pattern)) {
+        if (!StringUtils::isRegex($pattern)) {
             $pattern = "/" . preg_quote($pattern) . "/";
         }
         
-        preg_match($pattern, $this->web_response->getContent(), $matches);
+        preg_match($pattern, $this->webResponse->getContent(), $matches);
         if ($matches) {
             throw new \Exception("Found $pattern pattern");
         }
@@ -100,7 +100,26 @@ trait WebContext {
      */
     public function theResponseShouldBePrinted()
     {
-        echo $this->web_response->getContent();
-    }   
+        echo $this->webResponse->getContent();
+    }
+
+    /**
+     * @Then I should see :pattern inside :css
+     * @Then eu devo ver :pattern em :css
+     */
+    public function iShouldSeeInside($pattern, $css)
+    {
+        $crawler = new Crawler($this->webResponse->getContent());
+        $text = $crawler->filter($css)->text();
+
+        if (!StringUtils::isRegex($pattern)) {
+            $pattern = "/" . preg_quote($pattern) . "/";
+        }
+
+        preg_match($pattern, $text, $matches);
+        if (!$matches) {
+            throw new \Exception("Could not find $pattern pattern");
+        }
+    }
 
 }
