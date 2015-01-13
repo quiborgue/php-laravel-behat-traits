@@ -19,11 +19,11 @@ trait ModelContext {
             \Artisan::call('migrate:reset');
         }
         \Artisan::call('migrate');
-        \Artisan::call('db:seed');
     }
     
     /**
      * @Given /^clear model "([^"]+)"$/
+     * @Given /^que o modelo "([^"]+)" está vazio$/
      */
     public function clearModel($model)
     {
@@ -31,9 +31,19 @@ trait ModelContext {
         $list = $model::truncate();
     }
 
+    /**
+     * @Given /^database is seeded$/
+     * @Given /^que o banco de dados foi semeado$/
+     */
+    public function seedModel()
+    {
+        \Artisan::call('db:seed');
+    }
+
 
     /**
      * @Then /^the following "([^"]+)" should be stored:$/
+     * @Then /^o modelo "([^"]+)" deve ser armazenado:$/
      */
     public function theFollowingModelShouldBeStored($model, TableNode $model_information)
     {
@@ -54,7 +64,7 @@ trait ModelContext {
                     $value = $value->$attr;
                 }
 
-                if (!StringUtils::is_regex($pattern)) {
+                if (!StringUtils::isRegex($pattern)) {
                     $pattern = "/".preg_quote($pattern)."/";
                 }
 
@@ -68,7 +78,8 @@ trait ModelContext {
     }
 
     /**
-     * @Then /^show all from "([^"]+)"$/
+     * @Then /^show all from model "([^"]+)"$/
+     * @Then /^liste o conteudo do modelo "([^"]+)"$/
      */
     public function showAllFrom($model)
     {
@@ -80,6 +91,7 @@ trait ModelContext {
 
     /**
      * @Then /^"([^"]+)" count should be exactly (\d+)$/
+     * @Then /^a contagem do modelo "([^"]+)" deve ser exatamente (\d+)$/
      */
     public function modelCountShouldBeExactly($model, $count)
     {

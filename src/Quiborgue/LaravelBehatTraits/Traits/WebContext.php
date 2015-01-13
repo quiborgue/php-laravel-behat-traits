@@ -92,6 +92,7 @@ trait WebContext {
         if ($expected != $got) {
             throw new \Exception("Expected $expected got $got");
         }
+        $this->webResponse = $this->call('GET', $got);
     }
 
     /**
@@ -119,6 +120,31 @@ trait WebContext {
         preg_match($pattern, $text, $matches);
         if (!$matches) {
             throw new \Exception("Could not find $pattern pattern");
+        }
+    }
+
+    /**
+     * @Then I should not see :pattern inside :css
+     * @Then eu não devo ver :pattern em :css
+     */
+    public function iShouldNotSeeInside($pattern, $css)
+    {
+        $crawler = new Crawler($this->webResponse->getContent());
+        $text = $crawler->filter($css);
+
+        if (!count($text)) {
+            return;
+        } else {
+            $text = $text->text();
+        }
+
+        if (!StringUtils::isRegex($pattern)) {
+            $pattern = "/" . preg_quote($pattern) . "/";
+        }
+
+        preg_match($pattern, $text, $matches);
+        if ($matches) {
+            throw new \Exception("Found $pattern pattern");
         }
     }
 

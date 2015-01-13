@@ -84,4 +84,12 @@ trait RestContext {
             throw new \Exception("Expected json array does not have $count elements. $given_count elements found.");
         }
     }
+
+    /**
+     * @Then the REST response should be printed
+     * @When a resposta REST deve ser exibida
+     */
+    public function theRestResponseShouldBePrinted() {
+        echo $this->rest_response->getContent();
+    }
 }
