@@ -56,6 +56,7 @@ trait ModelContext {
             throw new \Exception("Could not find any $model.");
         }
 
+        $found = false;
         foreach ($list as $item) {
             foreach ($model_hash as $k => $pattern) {
                 $k_array = explode(".", $k);
@@ -70,9 +71,52 @@ trait ModelContext {
 
                 preg_match($pattern, $value, $matches);
 
-                if (!$matches) {
-                    throw new \Exception("Could not find $k = $pattern for $model.");
+                if ($matches) {
+                    return;
                 }
+            }
+        }
+
+        throw new \Exception("Could not find $k = $pattern for $model.");
+    }
+
+    /**
+     * @Then /^the following "([^"]+)" should not be stored:$/
+     * @Then /^o modelo "([^"]+)" não deve ser armazenado:$/
+     */
+    public function theFollowingModelShouldNotBeStored($model, TableNode $model_information)
+    {
+        $model_hash = $model_information->getRowsHash();
+
+        $model = studly_case($model);
+        $list = $model::all();
+
+        if (count($list) == 0) {
+            throw new \Exception("Could not find any $model.");
+        }
+
+        foreach ($list as $item) {
+            $matched = 0;
+            foreach ($model_hash as $k => $pattern) {
+                $k_array = explode(".", $k);
+                $value = $item;
+                foreach ($k_array as $attr) {
+                    $value = $value->$attr;
+                }
+
+                if (!StringUtils::isRegex($pattern)) {
+                    $pattern = "/".preg_quote($pattern)."/";
+                }
+
+                preg_match($pattern, $value, $matches);
+
+                if ($matches) {
+                    $matched++;
+                }
+            }
+
+            if ($matched == count($model_hash)) {
+                throw new \Exception("Found following item:" . print_r($model_hash, true));
             }
         }
     }
