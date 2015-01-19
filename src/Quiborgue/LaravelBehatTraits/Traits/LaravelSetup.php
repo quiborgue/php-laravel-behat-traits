@@ -1,9 +1,11 @@
 <?php namespace Quiborgue\LaravelBehatTraits\Traits;
 
 use Illuminate\Foundation\Testing\ApplicationTrait;
+use Mockery;
 
 trait LaravelSetup {
     use ApplicationTrait;
+
     /**
      * @BeforeScenario
      */
@@ -14,6 +16,16 @@ trait LaravelSetup {
             $this->refreshApplication();
         }
     }
+
+    /**
+     * @AfterScenario
+     */
+    public function setDown()
+    {
+        Mockery::close();
+    }
+
+            
 
     /**
      * Creates the application.
