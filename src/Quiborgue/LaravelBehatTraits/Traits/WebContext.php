@@ -7,6 +7,7 @@ use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Http\RedirectResponse;
 
 use Quiborgue\Utils\StringUtils;
+use Mockery as m;
 
 trait WebContext {
 
@@ -148,4 +149,24 @@ trait WebContext {
         }
     }
 
+    /**
+     * @Then an email should be sent to :to with the following subject :subject and view :view
+     * @Then um email deve ser enviado para :to com o seguinte assunto :subject e view :view
+     */
+    public function anEmailShouldBeSentToWithTheFollowingText($to, $subject, $view) {
+        \Mail::shouldReceive('send')->once()
+            ->with($view, m::on(function($data) {
+                return true;
+            }), m::on(function($closure) {
+                $message = m::mock('Illuminate\Mailer\Message');
+                $message->shouldReceive('to')
+                    ->with($to)
+                    ->andReturn(m::self());
+                $message->shouldReceive('subject')
+                    ->with($subject)
+                    ->andReturn(m::self());
+                $closure($message);
+            return true;
+        }));
+    }
 }

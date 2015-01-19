@@ -64,6 +64,26 @@ trait RestContext {
     }
 
     /**
+     * @Then the JSON response should look like the example:
+     * @Then a resposta JSON deve ser similar ao exemplo:
+     */
+    public function theJsonResponseShouldLookLikeTheExample(PyStringNode $string)
+    {
+        $json_given = json_decode($string);
+        if (!$json_given) {
+            throw new \Exception("Following given JSON is malformed:\n" . print_r($string, true));
+        }
+
+        $response = $this->rest_response->getContent();
+        $json_expected = json_decode($response);
+        if (!$json_expected) {
+            throw new \Exception("Following expected JSON is malformed:\n" . print_r($response, true));
+        }
+
+        ArrayUtils::doesStructureLookAlike($json_given, $json_expected);
+    }
+
+    /**
      * @Then the JSON response should be an array with :count elements
      * @Then a resposta JSON deve ser um array com :count elementos
      */
