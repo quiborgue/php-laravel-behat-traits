@@ -27,8 +27,8 @@ trait ModelContext {
      */
     public function clearModel($model)
     {
-        $model = studly_case($model);
-        $list = $model::truncate();
+        $model = snake_case($model);
+        $list = \DB::table($model)->delete();
     }
 
     /**
