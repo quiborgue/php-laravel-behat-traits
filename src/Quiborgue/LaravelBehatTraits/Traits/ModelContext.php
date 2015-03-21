@@ -5,7 +5,7 @@ use Behat\Gherkin\Node\TableNode;
 
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Http\RedirectResponse;
-
+use Carbon\Carbon;
 use Quiborgue\Utils\StringUtils;
 
 trait ModelContext {
@@ -184,7 +184,7 @@ trait ModelContext {
         $model = studly_case($model);
         $list = $model::all();
 
-        echo json_encode($list);
+        echo json_encode($list, JSON_PRETTY_PRINT);
     }
 
     /**
@@ -197,6 +197,37 @@ trait ModelContext {
         $list = $model::all();
         if (count($list) != $count) {
             throw new \Exception("Model count is " . count($list) . " but expected $count.");
+        }
+    }
+
+    /**
+     * @Given /^"([^"]*)" is filled with:$/
+     * @Given /^"([^"]*)" está preenchido com:$/
+     */
+    public function isFilledWith($table_name, TableNode $table, $only = false)
+    {
+        if ($only) $this->isEmpty($table_name);
+        $class_name = studly_case($table_name);
+        $this->saveFromTable($class_name, $table);
+    }
+
+    private function saveFromTable($class_name, $table, $obj = null) {
+        foreach ($table->getHash() as $linha ) {
+            if (!$obj) {
+                $obj = new $class_name();
+            }
+            foreach ($linha as $key => $value) {
+                if ($key === 'password') {
+                    $value = Hash::make($value);
+                }
+
+                if (in_array($key, $obj->getDates())) {
+                    $value = new Carbon($value);
+                }
+                $obj->$key = $value === "null" ? null : $value;
+            }
+            $obj->save();
+            $obj = null;
         }
     }
 }
