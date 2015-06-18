@@ -1,6 +1,7 @@
 {
     "name": "quiborgue/laravel-behat-traits",
     "description": "Useful traits to use with Behat on Laravel",
+    "license": "MIT",
     "authors": [
         {
             "name": "Quiborgue",
