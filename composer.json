@@ -12,18 +12,12 @@
         "php": ">=5.4.0",
         "illuminate/support": "4.2.*",
         "mockery/mockery": "0.9.*",
-        "quiborgue/utils": "0.1.1"
+        "quiborgue/utils": "0.1.*"
     },
     "autoload": {
         "psr-0": {
             "Quiborgue\\LaravelBehatTraits": "src/"
         }
     },
-    "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://bitbucket.org/quiborgue/laravel-behat-traits"
-        }
-    ]
+    "minimum-stability": "stable"
 }
